@@ -1,5 +1,11 @@
-# Ref: https://hackmamba.io/blog/2022/04/running-docker-in-a-jenkins-container/
-FROM jenkins/jenkins:lts
+FROM jenkins/jenkins:lts-jdk21
+
 USER root
-RUN curl https://get.docker.com > dockerinstall && chmod 777 dockerinstall && ./dockerinstall
+
+# Cài Docker CLI
+RUN curl -fsSL https://get.docker.com | sh
+
+# Cho user jenkins dùng được docker.sock
+RUN usermod -aG docker jenkins
+
 USER jenkins
